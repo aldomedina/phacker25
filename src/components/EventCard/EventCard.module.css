@@ -1,0 +1,52 @@
+.root {
+  cursor: pointer;
+  background: #e9e9e9;
+}
+
+.root:hover {
+  background: #f7f6f6;
+}
+
+.title {
+  text-transform: uppercase;
+  padding: var(--space-s) 0;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+}
+.author {
+  background-color: black;
+  color: white;
+}
+
+.mesa {
+  background-color: white;
+  color: black;
+}
+
+.author,
+.category {
+  padding: var(--space-4xs);
+}
+
+.title,
+.body {
+  padding-right: var(--space-s);
+  padding-left: var(--space-s);
+}
+
+.body {
+  font-size: var(--text-s);
+  padding-bottom: var(--space-s);
+}
+
+.sala {
+  display: none;
+}
+@media (max-width: 900px) {
+  .sala {
+    display: inline;
+  }
+}

@@ -6,7 +6,6 @@ import Renderer from "./Renderer.js";
 import Resources from "./utils/Resources.js";
 import sources from "./sources.js";
 import Debug from "./utils/Debug.js";
-import KeyboardInput from "./utils/KeyboardInput.js";
 import Environment from "./world/Environment.js";
 import Raycast from "./utils/RayCast.js";
 import PointerInput from "./utils/PointerInput.js";
@@ -33,7 +32,6 @@ export default class Experience {
     this.time = new Time();
 
     this.time.on("tick", () => this.update());
-    this.keyboard = new KeyboardInput();
 
     this.scene = new THREE.Scene();
 

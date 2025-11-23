@@ -22,7 +22,6 @@ export default class Renderer extends EventEmitter{
 
     setInstanceWebGPU()
     {
-        THREE.RectAreaLightNode.setLTC( RectAreaLightTexturesLib.init() );
 
         this.instance = new THREE.WebGPURenderer({
             canvas:this.canvas,
@@ -33,8 +32,8 @@ export default class Renderer extends EventEmitter{
         this.instance.shadowMap.type = THREE.PCFSoftShadowMap;
         this.instance.setSize(this.sizes.width,this.sizes.height);
         this.instance.setPixelRatio(this.sizes.pixelRatio);
-        this.instance.toneMapping = THREE.CineonToneMapping;
-        this.instance.toneMappingExposure =0.4
+        this.instance.toneMapping = THREE.ACESFilmicToneMapping;
+        this.instance.toneMappingExposure =0.5
     }
 
     setPostpro()

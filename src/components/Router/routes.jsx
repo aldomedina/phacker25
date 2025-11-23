@@ -1,18 +1,18 @@
 import Convocatoria from "../../pages/Convocatoria";
-import Cronograma from "../../pages/Cronograma";
 import Evento from "../../pages/Evento";
 import Manifiesto from "../../pages/Manifiesto";
 import NotFound from "../../pages/NotFound";
 import Conducta from "../../pages/Conducta";
 import Home from "../../pages/Home";
+import Programa from "../../pages/Programa";
 
 export const paths = {
   home: "/",
   convocatoria: "/convocatoria",
-  cronograma: "/cronograma",
   evento: "/evento",
   manifiesto: "/manifiesto",
   conducta: "/codigo-de-conducta",
+  programa: "/programa",
 };
 
 export const routes = [
@@ -28,11 +28,6 @@ export const routes = [
     meta: { title: "PHACKER:25 | Convocatoria", description: "" },
   },
   {
-    path: paths.cronograma,
-    component: <Cronograma />,
-    meta: { title: "PHACKER:25 | Cronograma", description: "" },
-  },
-  {
     path: paths.evento,
     component: <Evento />,
     meta: { title: "PHACKER:25 | Evento", description: "" },
@@ -46,6 +41,11 @@ export const routes = [
     path: paths.conducta,
     component: <Conducta />,
     meta: { title: "PHACKER:25 | Conducta", description: "" },
+  },
+  {
+    path: paths.programa,
+    component: <Programa />,
+    meta: { title: "PHACKER:25 | Programa", description: "" },
   },
   {
     path: "*",

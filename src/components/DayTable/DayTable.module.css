@@ -1,0 +1,107 @@
+.root {
+  /* Container styles */
+}
+
+.daymarquee {
+  font-size: var(--text-s);
+  text-transform: uppercase;
+  background: var(--color-background-red);
+  color: white;
+  width: max-content;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 60px 1fr 1fr 1fr;
+  gap: 1px;
+}
+
+.headerHoras,
+.header,
+.mobileHeader {
+  text-transform: uppercase;
+  font-size: var(--text-xl);
+}
+
+.headerHoras {
+  grid-column: 1;
+}
+
+.mobileHeader {
+  /* Mobile header - hidden on desktop */
+  display: none;
+  grid-column: 5;
+}
+
+.hourCell {
+  /* Hour column cell styles */
+  grid-column: 1;
+  padding-right: var(--space-m);
+}
+
+.eventCell {
+  /* Desktop event cell - stack multiple events */
+  display: flex;
+  flex-direction: column;
+  gap: 1px 0;
+}
+
+.mobileEventCell {
+  /* Mobile event cell - hidden on desktop */
+  display: none;
+  grid-column: 5;
+}
+
+/* .headerHoras,
+.header,
+.hourCell,
+.eventCell,
+.mobileEventCell {
+  border-bottom: 1px dashed var(--color-border-primary);
+} */
+
+.hourCell:last-child,
+.eventCell:last-child,
+.mobileEventCell:last-child {
+  border-bottom: 0;
+}
+
+/* Mobile styles */
+@media (max-width: 900px) {
+  .grid {
+    grid-template-columns: auto 1fr;
+  }
+
+  .headerHoras {
+    grid-column: 1;
+    border: 0;
+  }
+
+  .header {
+    /* Hide all desktop headers (Subte, Piso 1, Piso 2) on mobile */
+    display: none;
+  }
+
+  .mobileHeader {
+    /* Show mobile header (Evento) */
+    display: block;
+    grid-column: 2;
+  }
+
+  .hourCell {
+    grid-column: 1;
+  }
+
+  .eventCell {
+    /* Hide desktop event cells on mobile */
+    display: none;
+  }
+
+  .mobileEventCell {
+    /* Show mobile event cell */
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    grid-column: 2;
+  }
+}

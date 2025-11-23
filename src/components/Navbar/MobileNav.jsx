@@ -8,7 +8,7 @@ const MobileNav = () => {
   return (
     <nav className={css.mobileNav}>
       <Link to={paths.evento}>evento</Link>
-      <Link to={paths.convocatoria}>convocatoria</Link>
+      <Link to={paths.programa}>programa</Link>
       <Link to={paths.manifiesto}>manifiesto</Link>
     </nav>
   );

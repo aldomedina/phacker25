@@ -1,5 +1,6 @@
-import * as THREE from "three";
+import * as THREE from "three/webgpu";
 import Experience from "../Experience";
+import { RoomEnvironment } from "three/examples/jsm/Addons.js";
 // import { SkyMesh } from "three/examples/jsm/objects/SkyMesh.js";
 // import * as SunCalc from "suncalc";
 // import { MathUtils } from "three";
@@ -29,8 +30,8 @@ export default class Environment {
 
     this.scene.add(directiona_light);
 
-    this.scene.fog = new THREE.FogExp2(new THREE.Color("red"), 0.018);
-    this.scene.background = this.scene.fog.color;
+    this.scene.fog = new THREE.FogExp2(new THREE.Color("red"), 0.005);
+    this.scene.background = new THREE.Color("red");
 
     if (this.debug.active) {
       const folder = this.debug.ui.addFolder("Directional Light");
@@ -44,17 +45,9 @@ export default class Environment {
       enviroment_folder.open();
       enviroment_folder.add(this.scene, "environmentIntensity", 0, 10, 0.01);
     }
-
-    /*
-        this.enviromentMap = {};
-        this.enviromentMap.intensity = 0.3;
-        this.enviromentMap.texture = this.resources.items.rocky_env;
-        
-     
-        this.resources.items.rocky_env.colorSpace = THREE.LinearSRGBColorSpace;
-
-        this.scene.environmentIntensity = this.enviromentMap.intensity;
-        this.scene.environment = this.resources.items.rocky_env;*/
-    //    this.scene.background = this.resources.items.rocky_env;
+  
+      const pmrem_generator = new THREE.PMREMGenerator(this.renderer);
+      this.scene.environment =  pmrem_generator.fromScene(new RoomEnvironment(), 0.2).texture;
+      this.scene.environmentIntensity = 0.3
   }
 }

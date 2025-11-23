@@ -1,71 +1,41 @@
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { useLocation } from "react-router-dom";
 import cn from "classnames";
+import { useIntl } from "react-intl";
+
 import SobreMenu from "./SobreMenu";
 import { LogoPHacker25 } from "../Logos";
+import { useLocalizedNavigate } from "../../hooks/useLocalizedNavigate";
+import MobileMenuDrawer from "./MobileMenuDrawer";
 
 import { paths } from "../Router/routes";
 import css from "./Navbar.module.css";
-import { useState } from "react";
-import MobileMenuDrawer from "./MobileMenuDrawer";
 
 const Nav = () => {
-  const navigate = useNavigate();
+  const navigate = useLocalizedNavigate();
   const location = useLocation();
-  const isHome = location.pathname === "/";
+  const intl = useIntl();
+
+  // Detectar si estamos en home considerando el idioma
+  const isHome = location.pathname === "/" || location.pathname === "/en";
   const [menuOpen, setMenuOpen] = useState();
+
+  const cerrar = intl.formatMessage({ id: "cerrar" });
+
+  // Helper para crear paths localizados
 
   return (
     <>
       <header className={css.root}>
-        <button className={css.homeButton} onClick={() => navigate(paths.home)}>
-          /
-        </button>
         <SobreMenu />
-        <nav className={css.menuDesktop}>
-          <div className={cn(css.rect, "bgGrey700")} style={{ flex: 3 }} />
-          {/* <div className={cn(css.rect, "bgRed")} style={{ flex: 6 }} /> */}
-          <Link
-            to={paths.evento}
-            className={cn("text-link-primary px4XS", css.primaryLink)}
-          >
-            evento
-          </Link>
-          <div
-            className={cn(css.rect, "bgGrey300 bgPinkLines")}
-            style={{ flex: 6 }}
-          />
-          <Link
-            to={paths.convocatoria}
-            className={cn("text-link-primary px4XS", css.primaryLink)}
-          >
-            convocatoria
-          </Link>
-          <div className={cn(css.rect, "bgRed")} style={{ flex: 2 }} />
-          <Link
-            to={paths.manifiesto}
-            className={cn("text-link-primary px4XS", css.primaryLink)}
-          >
-            manifiesto
-          </Link>
-          <div className={cn(css.rect, "bgGrey200")} style={{ flex: 4 }} />
-          <div
-            className={cn(css.rect, "bgGrey700 bgGreenLines")}
-            style={{ flex: 3 }}
-          />
-        </nav>
+
         <nav className={css.menuMobile}>
-          <div className={cn(css.rect, "bgRed")} style={{ flex: 1 }} />
-          <div
-            className={cn(css.rect, "bgGrey200 bgPinkLines")}
-            style={{ flex: 5 }}
-          />
-          <div
-            className={cn(css.rect, "bgGrey900 bgPinkLines")}
-            style={{ flex: 3 }}
-          />
+          <div className={cn(css.rect, "bgGrey900")} style={{ flex: 1 }} />
+          <div className={cn(css.rect, "bgGrey900 ")} style={{ flex: 5 }} />
+
           {!isHome && (
             <button
-              className={css.logoMobile}
+              className={cn(css.logoMobile)}
               onClick={() => {
                 setMenuOpen(false);
                 navigate(paths.home);
@@ -76,9 +46,9 @@ const Nav = () => {
           )}
           <button
             onClick={() => setMenuOpen((state) => !state)}
-            className={cn("text-link-primary px4XS", css.primaryLink)}
+            className={cn("text-link-primary px4XS bgRed", css.primaryLink)}
           >
-            {menuOpen ? "CERRAR" : "MENU"}
+            {menuOpen ? cerrar : "MENU"}
           </button>
         </nav>
       </header>

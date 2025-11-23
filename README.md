@@ -29,6 +29,22 @@ npm run build
 - `/src/experience/` - Sistema 3D con Three.js
 - `/public/` - Contenido estático y textos
 
+## Actualizar Programa de Eventos
+
+Para actualizar la programación de eventos:
+
+1. Abrir la [planilla de Google Sheets](https://docs.google.com/spreadsheets/d/1BQEFI09zx2WL6KDMA-IXL421dYRjuKZHP5oFAgNPzns/edit?gid=1694252080#gid=1694252080)
+2. Ir a la pestaña `web_programa`
+3. Descargar como CSV: `Archivo > Descargar > Valores separados por comas (.csv)`
+4. Guardar el archivo descargado como `data.csv` en `scripts/data/`
+5. Ejecutar el script de conversión:
+
+```bash
+npm run generate:programs
+```
+
+Este script convertirá el CSV a JSON y generará el archivo `src/data/programs.js` automáticamente.
+
 ## Créditos
 
 **3D Experience**: [@armdz](https://github.com/armdz)

@@ -21,12 +21,7 @@ const Canvas = () => {
     };
   }, []);
 
-  return (
-    <canvas
-      ref={ref}
-      style={{ width: "100%", height: "100%", borderRadius: "18px" }}
-    />
-  );
+  return <canvas ref={ref} style={{ width: "100%", height: "100%" }} />;
 };
 
 export default Canvas;

@@ -4,11 +4,11 @@ import Footer from "../Footer";
 
 import css from "./Layout.module.css";
 
-const Layout = () => {
+const Layout = ({ noPadding, noPaddingX }) => {
   return (
     <div className="app">
       <Navbar />
-      <main className={css.main}>
+      <main className={css.main} data-full={noPadding} data-no-padding-x={noPaddingX}>
         <Outlet />
       </main>
       <Footer />

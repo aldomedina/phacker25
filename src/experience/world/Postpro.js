@@ -57,39 +57,24 @@ export default class Postpro {
     this.passes.scene = pass(this.scene, this.camera.instance);
     const scene_pass = this.passes.scene;
 
-    this.passes.bloom = bloom(scene_pass, 0.6, 0.2, 0.4);
+    this.passes.bloom = bloom(scene_pass, 0.2, 0.2, 0.4);
     this.passes.bloom.params = {
       threshold: 0.02,
     };
 
-    const pglitch = afterImage(scene_pass.add(this.passes.bloom), 1.0);
+    const pass_with_bloom = scene_pass.add(this.passes.bloom);
+
+    const pglitch = afterImage(pass_with_bloom, 1.0);
 
     this.glitch = pglitch;
 
     const no = mx_noise_float(uv().mul(this.sizes.width), 0.01);
 
-    this.composer.outputNode = pglitch.add(no);
+    this.composer.outputNode = pglitch//scene_pass.add(this.passes.bloom)//pglitch.add(no);
 
-    if (this.debug.active) {
-      const ui = this.debug.ui;
-      const bloom_folder = ui.addFolder("bloom");
-      bloom_folder
-        .add(this.passes.bloom.threshold, "value", 0.0, 1.0)
-        .name("Threshold");
-      bloom_folder
-        .add(this.passes.bloom.radius, "value", 0.0, 1.0)
-        .name("Radius");
-      bloom_folder
-        .add(this.passes.bloom.strength, "value", 0.0, 3.0)
-        .name("Rtrength");
 
-      const dof_folder = ui.addFolder("dof");
-      dof_folder.open();
-      dof_folder.add(this.passes.dof.focus, "value", 0.0, 300.0).name("focus");
-      dof_folder
-        .add(this.passes.dof.aperture, "value", 0.0, 10.0)
-        .name("aperture");
-    }
+  
+
   }
 
   render() {

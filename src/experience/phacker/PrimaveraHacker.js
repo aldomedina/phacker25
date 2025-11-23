@@ -32,6 +32,7 @@ import {
   // clamp,
   distance,
   mx_noise_vec3,
+  uniform,
 } from "three/tsl";
 import { instancedBufferAttribute } from "three/tsl";
 import { instanceIndex } from "three/tsl";
@@ -42,6 +43,8 @@ import { hash } from "three/tsl";
 import { RepeatWrapping } from "three";
 // import Raycast from "../utils/RayCast";
 import CameraController from "./CameraController";
+import Perrito from "./Perrito";
+import RoundedMask from "./RoundedMask";
 
 export default class PrimaveraHacker {
   constructor() {
@@ -66,8 +69,9 @@ export default class PrimaveraHacker {
 
     const floor_size = 200;
     const floor_material = new THREE.MeshStandardNodeMaterial();
-    floor_material.metalness = 0.1;
-    floor_material.roughness = 0.9;
+    
+    floor_material.metalnessNode = uniform(1.0);
+    floor_material.roughnessNode = uniform(0.9);
     floor_material.wireframe = false;
     floor_material.flatShading = true;
 
@@ -85,13 +89,14 @@ export default class PrimaveraHacker {
       smoothstep(radius.sub(thickness), radius, dist_center)
     );
     linea = step(0.05, linea);
-
+    const noise_color = mx_noise_float(_pix_uv.mul(10.0).add(vec3(0.0, 0.0, time.mul(0.3))), 1.0);
     let color_floor = vec3(
       mx_noise_float(_pix_uv.mul(10.0).add(vec3(0.0, 0.0, time.mul(0.3))), 1.0)
     );
     color_floor = mix(vec3(0.0), vec3(0.05, 0.1, 0.0), color_floor);
 
-    floor_material.colorNode = mix(color_floor, vec3(10.0, 0.0, 0.0), linea);
+    floor_material.colorNode = vec3(0.1);
+    floor_material.emissiveNode = mix(vec3(0.0,0.0,0.0), vec3(10.0, 0.0, 0.0), linea);
 
     const floor_instance = new THREE.Mesh(
       new THREE.PlaneGeometry(floor_size, floor_size, 12, 12).rotateX(
@@ -126,17 +131,12 @@ export default class PrimaveraHacker {
     floor_instance.receiveShadow = true;
     this.scene.add(floor_instance);
 
-    //  manifiesto
+    const perrito = new Perrito();
+    this.perrito = perrito;
 
-    //     this.manifiesto = new Manifiesto();
+    const rounded_mask = new RoundedMask();
 
-    //     this.manifiesto.on("touch",(_arg)=>{
-
-    //    //     this.glitch.set_hide(1.0);
-
-    //     });
-
-    const count = 5000;
+    const count = 2000;
 
     const positions = [];
 
@@ -201,24 +201,7 @@ export default class PrimaveraHacker {
 
     this.raycaster.on("hit", () => {});
 
-    // const logo_texture = this.resorces.items.logo;
-    // const sizes = {
-    //   x: 1,
-    //   y: logo_texture.source.data.height / logo_texture.source.data.width,
-    //   z: 1,
-    // };
 
-    // const logo_primavera = new THREE.Mesh(
-    //   new THREE.PlaneGeometry(5, 5 * sizes.y, 2, 2),
-    //   new THREE.MeshBasicMaterial()
-    // );
-    // logo_primavera.position.z = -9.0;
-    // logo_primavera.position.y = -4.0;
-    // logo_primavera.scale.multiplyScalar(1);
-    // logo_primavera.material.map = this.resorces.items.logo;
-    // logo_primavera.material.transparent = true;
-    // logo_primavera.material.depthTest = false;
-    // this.camera.instance.add(logo_primavera);
 
     this.update = () => {};
   }

@@ -3,6 +3,7 @@ import { nodeObject, Fn, float, vec4, uv, texture, passTexture, uniform, sign, m
 import { randFloat } from 'three/src/math/MathUtils.js';
 import { gaussianBlur } from 'three/examples/jsm/tsl/display/GaussianBlurNode.js';
 import { NearestFilter, RepeatWrapping } from 'three';
+import Experience from '../Experience';
 
 /** @module AfterImageNode **/
 
@@ -33,6 +34,9 @@ class AfterImageNode extends TempNode {
 	constructor( textureNode, damp = 0.96 ) {
 
 		super( 'vec4' );
+
+
+		this.experience = new Experience();
 
 		/**
 		 * The texture node that represents the input of the effect.
@@ -120,7 +124,7 @@ class AfterImageNode extends TempNode {
 	 * @param {Number} height - The height of the effect.
 	 */
 	setSize( width, height ) {
-
+	
 		this._compRT.setSize( width, height );
 		this._oldRT.setSize( width, height );
 
@@ -138,6 +142,14 @@ class AfterImageNode extends TempNode {
 		_rendererState = RendererUtils.resetRendererState( renderer, _rendererState );
 
 		//
+
+		if(this.experience.primavera_hacker.perrito)
+		{
+			if(this.u_extra)
+			{
+				this.u_extra.value = this.experience.primavera_hacker.perrito.do_glitch;
+			}
+		}
 
 		const textureNode = this.textureNode;
 		const map = textureNode.value;
@@ -193,6 +205,8 @@ class AfterImageNode extends TempNode {
 		const _size = 2.0;
 		const u_time = uniform(_time);
 		const u_size = uniform(_size);
+		const u_extra = uniform(0.0);
+		this.u_extra = u_extra;
 		this.glitch_interval = setInterval(() => {
 			u_time.value += Math.random()+.2;
 			u_size.value = randFloat(2.0,10.0);
@@ -230,9 +244,11 @@ class AfterImageNode extends TempNode {
 			const c_time = 0.0;
 			const nois = mx_noise_float(p_uv.add(vec3(0.0,0.0,u_time)),1.0);	
 			const glitch = hue(texelOld,texelNew.length().mul(Math.PI).mul(0.2));
-			const glitch_mix = mix(mix(texelNew,glitch,texelOld.r.step(0.2).oneMinus()),textureNodeOld.sample(_uv.add(nois.mul(time.add(Math.PI*2.0)).mul(1.0/640.0))),u_hide);
+			let  glitch_mix = mix(mix(texelNew,glitch,texelOld.r.step(0.2).oneMinus()),textureNodeOld.sample(_uv.add(nois.mul(time.add(Math.PI*2.0)).mul(1.0/640.0))),u_hide);
 
-			return mix( texelNew, glitch_mix ,max(nois.step(0.3).oneMinus(),u_hide));
+			glitch_mix = mix(glitch_mix,textureNode.sample(texelOld.xy),u_extra);
+
+			return mix( texelNew, glitch_mix ,max(nois.step(0.3).oneMinus(),mix(u_hide,.9,u_extra)));
 
 		} );
 
